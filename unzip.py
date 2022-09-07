@@ -52,14 +52,6 @@ def unzip(argv) -> bool:
     except:
         print(f"> Could not unzip {zipped}.")
     
-
-    # Remove zipped assignment file
-    # try:
-    #     os.system(f"rm -rf *.zip")
-    # except:
-    #     # We should still continue the routine
-    #     print("> Could not remove zipped assignment file.")
-
     # Navigate to the destination directory
     try:
         os.chdir(destination)
@@ -86,7 +78,6 @@ def unzip(argv) -> bool:
     except:
         # We should still continue the routine
         print("> Could not remove .txt files, or no .txt files was found.")
-
 
 
     # Keep track of how many files we can unzip.
@@ -116,21 +107,8 @@ def unzip(argv) -> bool:
     for assignment in os.listdir():
         username = get_username(assignment)
 
-        # Navigate to the feedback directory
-        # try:
-        #     os.chdir("feedback")
-        # except:
-        #     print("> Could not navigate to the feedback directory.")
-
         with open(f'feedback/{username}.txt', 'w') as f:
             f.write(f"Tilbakemelding til {username} (__%)")
-
-    # Remove zipped assignment file
-    # try:
-    #     os.system(f"rm -rf *.zip")
-    # except:
-    #     # We should still continue the routine
-    #     print("> Could not remove zipped assignment file.")
 
     return True
 
