@@ -27,7 +27,6 @@ def unzip(argv) -> bool:
     :return: a boolean value indicating whether the unzipping was successful.
     """
 
-    print(argv)
     # argv should only process 2 arguments
     if len(argv) != 2:
         print("> Invalid input. Please use the following format:")
@@ -58,11 +57,12 @@ def unzip(argv) -> bool:
     except:
         print(f"> Could not navigate to /{destination}.")
 
-    print(zipped[:-4])
-    try:
-        os.chdir(zipped[:-4])
-    except:
-        print(f"> Could not navigate to /{zipped[:-4]}.")
+    # If on ARM architecture, navigate into the folder created by Zipfile
+    if "ARM" in str(os.uname()):
+        try:
+            os.chdir(zipped[:-4])
+        except:
+            print(f"> Could not navigate to /{zipped[:-4]}.")
 
     # Make a feedback directory to store each student's feedback files
     if not os.path.exists('feedback'):
@@ -85,7 +85,6 @@ def unzip(argv) -> bool:
     # Target is an integer determined by the number of .zip files in the destination directory.
     target = len([filename for filename in os.listdir() if filename[-3:] == "zip"])
 
-    print(os.listdir())
     # For each zipped assignment in the destination directory
     for assignment in os.listdir():
         # Only handle .zip files
@@ -104,11 +103,23 @@ def unzip(argv) -> bool:
             print("> Could not unzip student's zipped assignment.")
             continue
 
+    reserved = ["deliverables", "feedback"]
+
     for assignment in os.listdir():
+        if assignment in reserved:
+            continue
+
         username = get_username(assignment)
 
         with open(f'feedback/{username}.txt', 'w') as f:
             f.write(f"Tilbakemelding til {username} (__%)")
+
+    # Remove redundant .txt files
+    try:
+        os.system("rm *.zip")
+    except:
+        # We should still continue the routine
+        print("> Could not remove .zip files, or no .zip files was found.")
 
     return True
 
