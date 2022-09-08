@@ -57,12 +57,11 @@ def unzip(argv) -> bool:
     except:
         print(f"> Could not navigate to /{destination}.")
 
-    # If on ARM architecture, navigate into the folder created by Zipfile
-    if "ARM" in str(os.uname()):
-        try:
-            os.chdir(zipped[:-4])
-        except:
-            print(f"> Could not navigate to /{zipped[:-4]}.")
+    # Due to new Blackboard folder structure, cd into folder
+    try:
+        os.chdir(zipped[:-4])
+    except:
+        print(f"> Could not navigate to /{zipped[:-4]}.")
 
     # Make a feedback directory to store each student's feedback files
     if not os.path.exists('feedback'):
