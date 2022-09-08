@@ -14,10 +14,9 @@ traverse() {
     elif [ -f "$i" ]; then
       filename=$i
 
-      # We only care about .html, .css and .js files
+      # We only care about .html and .css files
       if [ "${filename: -5}" == ".html" ] ||
-        [ "${filename: -4}" == ".css" ] ||
-        [ "${filename: -3}" == ".js" ]; then
+        [ "${filename: -4}" == ".css" ]; then
 
         # Split filename on dot [.], and extract the path without extension.
         # This assumes the path only has 1 dot [.] in it
@@ -30,8 +29,6 @@ traverse() {
           content_type="text/html"
         elif [ "${filename: -4}" == ".css" ]; then
           content_type="text/css"
-        elif [ "${filename: -3}" == ".js" ]; then
-          content_type="text/javascript"
         fi
 
         echo "> Posting file to W3 Validator"
